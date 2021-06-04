@@ -79,6 +79,6 @@
 
 ### 3. 타입스크립트
 - children을 갖고있는 컴포넌트의 경우 **FC**를 리액트에서 가져와서 적용한다.
-`const Workspace: FC = ({ children }) => {}`
+  - `const Workspace: FC = ({ children }) => {}`
 - children을 갖고있지 않는 컴포넌트의 경우 **VFC**를 리액트에서 가져와서 적용한다.
-`const Workspace: VFC = () => {}`
+  - `const Workspace: VFC = () => {}`
