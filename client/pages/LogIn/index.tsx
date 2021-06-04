@@ -1,16 +1,14 @@
 import React, { useCallback, useState } from 'react';
 import { Success, Form, Error, Label, Input, LinkContainer, Button, Header } from '@pages/SignUp/styles';
 import useInput from '@hooks/useInput';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import useSWR from 'swr';
 import fetcher from '@utils/fetcher';
 
 export default function LogIn() {
   // useSWR: 첫번째 매개변수인 url 주소값이 두번째 매개변수인 함수의 매개변수로 들어가서 반환값을 반환한다.
-  const { data, error, revalidate } = useSWR('http://localhost:3095/api/users', fetcher, {
-    dedupingInterval: 100000,
-  });
+  const { data, error, revalidate } = useSWR('http://localhost:3095/api/users', fetcher);
   const [logInError, setLogInError] = useState(false);
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
@@ -37,6 +35,14 @@ export default function LogIn() {
     },
     [email, password],
   );
+
+  if (data === undefined) {
+    return <div>로딩중...</div>;
+  }
+
+  if (data) {
+    return <Redirect to="/workspace/channel" />;
+  }
 
   return (
     <div id="container">
