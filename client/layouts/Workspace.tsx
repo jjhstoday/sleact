@@ -5,7 +5,9 @@ import axios from 'axios';
 import { Redirect } from 'react-router';
 
 const Workspace: FC = ({ children }) => {
-  const { data, error, revalidate } = useSWR('http://localhost:3095/api/users', fetcher);
+  const { data, error, revalidate, mutate } = useSWR('http://localhost:3095/api/users', fetcher, {
+    dedupingInterval: 2000,
+  });
 
   const onLogout = useCallback(() => {
     axios
@@ -13,7 +15,8 @@ const Workspace: FC = ({ children }) => {
         withCredentials: true,
       })
       .then(() => {
-        revalidate();
+        // 로그인 안했을때 data값은 false이므로, 로그아웃 요청시 fasle값을 넣어준다.
+        mutate(false, false);
       });
   }, []);
 

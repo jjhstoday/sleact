@@ -8,7 +8,7 @@ import fetcher from '@utils/fetcher';
 
 export default function LogIn() {
   // useSWR: 첫번째 매개변수인 url 주소값이 두번째 매개변수인 함수의 매개변수로 들어가서 반환값을 반환한다.
-  const { data, error, revalidate } = useSWR('http://localhost:3095/api/users', fetcher);
+  const { data, error, revalidate, mutate } = useSWR('http://localhost:3095/api/users', fetcher);
   const [logInError, setLogInError] = useState(false);
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
@@ -27,7 +27,8 @@ export default function LogIn() {
           },
         )
         .then((response) => {
-          revalidate();
+          // response.data를 data에 저장함 (서버에 재요청하지 않고!!) + 두번째 변수에 false를 넣어주어야 함!!!!
+          mutate(response.data, false);
         })
         .catch((error) => {
           setLogInError(error.response?.data?.statusCode === 401);
