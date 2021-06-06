@@ -82,3 +82,29 @@
   - `const Workspace: FC = ({ children }) => {}`
 - children을 갖고있지 않는 컴포넌트의 경우 **VFC**를 리액트에서 가져와서 적용한다.
   - `const Workspace: VFC = () => {}`
+
+<br>
+
+### 4. gravatar (랜덤 프로필 생성)
+- 사용법: 
+  - `<img src={gravatar.url(data.email, { s: '28px', d: 'retro' })} />`
+  - 첫번째 매개변수값을 기억해 동일한 랜덤 프로필을 표시해줌
+  - s: size
+  - d: default 값
+
+[💁🏻‍♀️ gravatar 공식문서에서 랜덤 속성 더 알아보기](https://ko.gravatar.com/site/implement/images/)
+
+<br>
+
+### 5. form
+- form 제출할때 공백 방어코드: `.trim()`
+```
+if (!newWorkspace || !newWorkspace.trim()) return;
+```
+
+<br>
+
+### 6. 유용한 라이브러리
+- react-custom-scrollbars: 스크롤바 커스터마이징
+- react-mentions: `@홍길동`같이 사람 호출하는 기능
+- react-toastify: 경고 알림창
