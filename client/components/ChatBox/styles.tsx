@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { MentionsInput } from 'react-mentions';
+// import { MentionsInput } from 'react-mentions';
 
 export const ChatArea = styled.div`
   display: flex;
