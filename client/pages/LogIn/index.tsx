@@ -28,7 +28,7 @@ export default function LogIn() {
         )
         .then((response) => {
           // response.data를 data에 저장함 (서버에 재요청하지 않고!!) + 두번째 변수에 false를 넣어주어야 함!!!!
-          mutate(response.data, false);
+          revalidate();
         })
         .catch((error) => {
           setLogInError(error.response?.data?.statusCode === 401);
