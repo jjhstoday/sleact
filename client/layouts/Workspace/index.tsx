@@ -1,4 +1,4 @@
-import React, { useCallback, useState, VFC } from 'react';
+import React, { useCallback, useState, VFC, useEffect } from 'react';
 import fetcher from '@utils/fetcher';
 import useSWR from 'swr';
 import axios from 'axios';
@@ -36,6 +36,7 @@ import DMList from '@components/DMList';
 
 const Channel = loadable(() => import('@pages/Channel'));
 const DirectMessage = loadable(() => import('@pages/DirectMessage'));
+import useSocket from '@hooks/useSocket';
 
 const Workspace: VFC = () => {
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -56,10 +57,11 @@ const Workspace: VFC = () => {
   } = useSWR<IUser | false>('/api/users', fetcher, {
     dedupingInterval: 2000,
   });
-
   const { data: channelData } = useSWR<IChannel[]>(userData ? `/api/workspaces/${workspace}/channels` : null, fetcher);
-
   const { data: memberData } = useSWR<IUser[]>(userData ? `/api/workspaces/${workspace}/members` : null, fetcher);
+  const [socket, disconnect] = useSocket(workspace);
+
+  useEffect(() => {}, []);
 
   const onLogout = useCallback(() => {
     axios
