@@ -36,6 +36,7 @@ const ChatBox: VFC<Props> = ({ chat, onSubmitForm, onChangeChat, placeholder }) 
 
   const onKeyDownChat = useCallback(
     (e) => {
+      console.log(e.target.vlaue);
       if (e.key === 'Enter') {
         if (!e.shiftKey) {
           e.preventDefault();
@@ -75,7 +76,7 @@ const ChatBox: VFC<Props> = ({ chat, onSubmitForm, onChangeChat, placeholder }) 
           id="editor-chat"
           value={chat}
           onChange={onChangeChat}
-          onKeyDown={onKeyDownChat}
+          onKeyPress={onKeyDownChat}
           placeholder={placeholder}
           inputRef={textareaRef}
           allowSuggestionsAboveCursor
