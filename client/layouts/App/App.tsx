@@ -6,6 +6,7 @@ import loadable from '@loadable/component';
 const LogIn = loadable(() => import('@pages/LogIn'));
 const SignUp = loadable(() => import('@pages/SignUp'));
 const Workspace = loadable(() => import('@layouts/Workspace'));
+const NotFoundScene = loadable(() => import('@pages/NotFoundScene'));
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
       <Route path="/login" component={LogIn} />
       <Route path="/signup" component={SignUp} />
       <Route path="/workspace/:workspace" component={Workspace} />
+      <Route path="*" component={NotFoundScene} />
     </Switch>
   );
 };
