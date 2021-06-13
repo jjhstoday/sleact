@@ -36,7 +36,7 @@ export default function SignUp() {
   const onSubmit = useCallback(
     (e) => {
       e.preventDefault();
-      if (!mismatchError) {
+      if (!mismatchError && email && nickname && password) {
         console.log('서버로 회원가입하기');
         // 비동기를 보내기전에 상태를 초기화 시켜줘야 최신의 상태를 가질 수 있다.
         setSignUpError('');
