@@ -19,6 +19,7 @@ export const ProfileImg = styled.img`
   position: absolute;
   top: 5px;
   right: 16px;
+  cursor: pointer;
 `;
 
 export const ProfileModal = styled.div`
@@ -160,6 +161,9 @@ export const WorkspaceModal = styled.div`
     cursor: pointer;
     &:last-of-type {
       border-bottom: 1px solid rgb(28, 29, 28);
+    }
+    &:last-child {
+      border-bottom: none;
     }
   }
 `;
