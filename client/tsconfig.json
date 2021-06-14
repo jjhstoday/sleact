@@ -18,5 +18,7 @@
       "@utils/*": ["utils/*"],
       "@typings/*": ["typings/*"]
     }
-  }
+  },
+  "include": ["components/*", "hooks/*", "utils", "layouts/*", "pages/*", "typings/*", "./custom.d.ts"],
+  "exclude": ["node_moduels"]
 }
