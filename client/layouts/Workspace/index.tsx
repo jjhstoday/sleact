@@ -173,6 +173,7 @@ const Workspace: VFC = () => {
       <WorkspaceWrapper>
         <Workspaces>
           {userData?.Workspaces.map((ws) => {
+            console.log(ws);
             return (
               <Link key={ws.id} to={`/workspace/${ws.url}/channel/일반`}>
                 <WorkspaceButton>{ws.name.slice(0, 1).toUpperCase()}</WorkspaceButton>
@@ -182,7 +183,9 @@ const Workspace: VFC = () => {
           <AddButton onClick={onClickCreateWorkspace}>+</AddButton>
         </Workspaces>
         <Channels>
-          <WorkspaceName onClick={toggleWorkspaceModal}>Sleact</WorkspaceName>
+          <WorkspaceName onClick={toggleWorkspaceModal}>
+            {userData?.Workspaces.find((v) => v.url === workspace) ? workspace : 'Sleact'}
+          </WorkspaceName>
           <MenuScroll>
             <Menu show={showWorkspaceModal} onCloseModal={toggleWorkspaceModal} style={{ top: 95, left: 80 }}>
               <WorkspaceModal>
@@ -192,10 +195,15 @@ const Workspace: VFC = () => {
                 <button onClick={onLogout}>로그아웃</button>
               </WorkspaceModal>
             </Menu>
+
+            {/* TODO: */}
+
             <ChannelList />
             <DMList />
           </MenuScroll>
         </Channels>
+
+        {/* TODO: */}
         <Chats>
           <Switch>
             <Route path="/workspace/:workspace/channel/:channel" component={Channel} />
@@ -216,6 +224,8 @@ const Workspace: VFC = () => {
           <Button type="submit">생성하기</Button>
         </form>
       </Modal>
+      {/* TODO: */}
+
       <CreateChannelModal
         show={showCreateChannelModal}
         onCloseModal={onCloseModal}
