@@ -5,9 +5,11 @@ import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import useSWR from 'swr';
 import fetcher from '@utils/fetcher';
+import Loading from '../../assets/loading.svg';
 
 export default function LogIn() {
   // useSWR: 첫번째 매개변수인 url 주소값이 두번째 매개변수인 함수의 매개변수로 들어가서 반환값을 반환한다.
+  // swr에서 data가 undefined이면 로딩중이다.
   const { data, error, revalidate, mutate } = useSWR('/api/users', fetcher);
   const [logInError, setLogInError] = useState(false);
   const [email, onChangeEmail] = useInput('');
@@ -38,7 +40,7 @@ export default function LogIn() {
   );
 
   if (data === undefined) {
-    return <div>로딩중...</div>;
+    return <Loading />;
   }
 
   if (data) {

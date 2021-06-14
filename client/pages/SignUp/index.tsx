@@ -5,6 +5,7 @@ import { Form, Label, Input, LinkContainer, Button, Header, Error, Success } fro
 import { Link, Redirect } from 'react-router-dom';
 import useSWR from 'swr';
 import fetcher from '@utils/fetcher';
+import Loading from '../../assets/loading.svg';
 
 export default function SignUp() {
   const { data, error, revalidate } = useSWR('/api/users', fetcher);
@@ -63,7 +64,7 @@ export default function SignUp() {
 
   // 초기데이터가 false값이기 때문에 undefined로 확인해야 함
   if (data === undefined) {
-    return <div>로딩중...</div>;
+    return <Loading />;
   }
 
   if (data) {
