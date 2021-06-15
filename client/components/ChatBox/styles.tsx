@@ -58,7 +58,7 @@ export const Toolbox = styled.div`
 export const SendButton = styled.button`
   position: absolute;
   right: 5px;
-  top: 5px;
+  top: 2px;
 `;
 
 export const EachMention = styled.button<{ focus: boolean }>`
