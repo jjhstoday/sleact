@@ -33,6 +33,7 @@ import InviteWorkspaceModal from '@components/ImviteWorkspaceModal';
 import InviteChannelModal from '@components/InviteChannelModal';
 import ChannelList from '@components/ChannelList';
 import DMList from '@components/DMList';
+import CreateWorkspaceModal from '@components/CreateWorkspaceModal';
 
 const Channel = loadable(() => import('@pages/Channel'));
 const DirectMessage = loadable(() => import('@pages/DirectMessage'));
@@ -45,8 +46,6 @@ const Workspace: VFC = () => {
   const [showCreateChannelModal, setShowCreateChannelModal] = useState(false);
   const [showInviteWorkspaceModal, setShowInviteWorkspaceModal] = useState(false);
   const [showInviteChannelModal, setShowInviteChannelModal] = useState(false);
-  const [newWorkspace, onChangeNewWorkspace, setNewWorkspace] = useInput('');
-  const [newUrl, onChangeNewUrl, setNewUrl] = useInput('');
   const { workspace } = useParams<{ workspace: string }>();
 
   const {
@@ -94,37 +93,6 @@ const Workspace: VFC = () => {
   const onClickCreateWorkspace = useCallback(() => {
     setShowCreateWorkspaceModal(true);
   }, []);
-
-  const onCreateWorkspace = useCallback(
-    (e) => {
-      e.preventDefault();
-      // .trim은 띄어쓰기 한번만 했을때도 통과가 되는것을 막기 위한 방어 코드
-      if (!newWorkspace || !newWorkspace.trim()) return;
-      if (!newUrl || !newUrl.trim()) return;
-      axios
-        .post(
-          '/api/workspaces',
-          {
-            workspace: newWorkspace,
-            url: newUrl,
-          },
-          {
-            withCredentials: true,
-          },
-        )
-        .then(() => {
-          revalidate();
-          setShowCreateWorkspaceModal(false);
-          setNewWorkspace('');
-          setNewUrl('');
-        })
-        .catch((error) => {
-          console.dir(error);
-          toast.error(error.response?.data, { position: 'bottom-center' });
-        });
-    },
-    [newWorkspace, newUrl],
-  );
 
   const onCloseModal = useCallback(() => {
     setShowCreateWorkspaceModal(false);
@@ -211,21 +179,11 @@ const Workspace: VFC = () => {
           </Switch>
         </Chats>
       </WorkspaceWrapper>
-      <Modal show={showCreateWorkspaceModal} onCloseModal={onCloseModal}>
-        <form onSubmit={onCreateWorkspace}>
-          <Label id="workspace-label">
-            <span>워크스페이스 이름</span>
-            <Input id="workspace" value={newWorkspace} onChange={onChangeNewWorkspace} />
-          </Label>
-          <Label id="workspace-url-label">
-            <span>워크스페이스 url</span>
-            <Input id="workspace" value={newUrl} onChange={onChangeNewUrl} />
-          </Label>
-          <Button type="submit">생성하기</Button>
-        </form>
-      </Modal>
-      {/* TODO: */}
-
+      <CreateWorkspaceModal
+        show={showCreateWorkspaceModal}
+        onCloseModal={onCloseModal}
+        setShowCreateWorkspaceModal={setShowCreateWorkspaceModal}
+      />
       <CreateChannelModal
         show={showCreateChannelModal}
         onCloseModal={onCloseModal}
