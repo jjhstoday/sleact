@@ -33,7 +33,7 @@ export default function LogIn() {
           revalidate();
         })
         .catch((error) => {
-          setLogInError(error.response?.data?.statusCode === 401);
+          setLogInError(error.response?.data);
         });
     },
     [email, password],
@@ -62,7 +62,7 @@ export default function LogIn() {
           <div>
             <Input type="password" id="password" name="password" value={password} onChange={onChangePassword} />
           </div>
-          {logInError && <Error>이메일과 비밀번호 조합이 일치하지 않습니다.</Error>}
+          {logInError && <Error>{logInError}</Error>}
         </Label>
         <Button type="submit">로그인</Button>
       </Form>

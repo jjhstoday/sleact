@@ -3,7 +3,8 @@ import { Label, Input, Button } from '@pages/SignUp/styles';
 import useInput from '@hooks/useInput';
 import Modal from '@components/Modal';
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import useSWR from 'swr';
 import fetcher from '@utils/fetcher';
 import { IUser } from '@typings/db';
@@ -69,6 +70,7 @@ const CreateWorkspaceModal: VFC<Props> = ({ show, onCloseModal, setShowCreateWor
         </Label>
         <Button type="submit">생성하기</Button>
       </form>
+      <ToastContainer />
     </Modal>
   );
 };

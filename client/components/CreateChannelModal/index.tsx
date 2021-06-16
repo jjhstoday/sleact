@@ -4,7 +4,9 @@ import useInput from '@hooks/useInput';
 import Modal from '@components/Modal';
 import axios from 'axios';
 import { useParams } from 'react-router';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import useSWR from 'swr';
 import fetcher from '@utils/fetcher';
 import { IUser, IChannel } from '@typings/db';
@@ -66,6 +68,7 @@ const CreateChannelModal: VFC<Props> = ({ show, onCloseModal, setShowCreateChann
         </Label>
         <Button type="submit">생성하기</Button>
       </form>
+      <ToastContainer />
     </Modal>
   );
 };

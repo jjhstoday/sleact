@@ -6,7 +6,8 @@ import fetcher from '@utils/fetcher';
 import axios from 'axios';
 import React, { FC, useCallback } from 'react';
 import { useParams } from 'react-router';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import useSWR from 'swr';
 
 interface Props {
@@ -55,6 +56,7 @@ const InviteChannelModal: FC<Props> = ({ show, onCloseModal, setShowInviteChanne
         </Label>
         <Button type="submit">초대하기</Button>
       </form>
+      <ToastContainer />
     </Modal>
   );
 };
