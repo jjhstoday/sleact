@@ -1,5 +1,5 @@
-import React, { useCallback, useRef, useEffect } from 'react';
-import { Container, Header } from './styles';
+import React, { useCallback, useRef, useEffect, useState } from 'react';
+import { Container, Header, DragOver } from './styles';
 import gravatar from 'gravatar';
 import useSWR, { useSWRInfinite } from 'swr';
 import { useParams } from 'react-router';
@@ -31,6 +31,7 @@ const DirectMessage = () => {
   const isEmpty = chatData?.[0]?.length === 0;
   const isReachingEnd = isEmpty || (chatData && chatData[chatData.length - 1]?.length < 20) || false;
   const scrollbarRef = useRef<Scrollbars>(null);
+  const [dragOver, setDragOver] = useState(false);
 
   const onSubmitForm = useCallback(
     (e) => {
@@ -67,6 +68,7 @@ const DirectMessage = () => {
 
   const onMessage = useCallback((data: IDM) => {
     // id는 상대방 아이디
+    // myData.id !== Number(id) : 내가 채팅을 보낼때는 mutateChat으로 서버로 안보내게 하기, 왜냐하면, 위에 onSubmitForm에서 이미 서버로 보내고 있기 때문, 이 조건이 없을 시 채팅이 두개 올라감
     if (data.SenderId === Number(id) && myData.id !== Number(id)) {
       mutateChat((chatData) => {
         chatData?.[0].unshift(data);
@@ -101,6 +103,39 @@ const DirectMessage = () => {
     }
   }, [chatData]);
 
+  const onDrop = useCallback(
+    (e) => {
+      e.preventDefault();
+      console.log(e);
+      const formData = new FormData();
+      if (e.dataTransfer.items) {
+        for (let i = 0; i < e.dataTransfer.items.length; i++) {
+          if (e.dataTransfer.items[i].kind === 'file') {
+            const file = e.dataTransfer.items[i].getAsFile();
+            console.log('... file[' + i + '].name = ' + file.name);
+            formData.append('image', file);
+          }
+        }
+      } else {
+        for (let i = 0; i < e.dataTransfer.files.length; i++) {
+          console.log('... file[' + i + '].name = ' + e.dataTransfer.files[i].name);
+          formData.append('image', e.dataTransfer.files[i]);
+        }
+      }
+      axios.post(`/api/workspaces/${workspace}/dms/${id}/images`, formData).then(() => {
+        setDragOver(false);
+        revalidate();
+      });
+    },
+    [revalidate, workspace, id],
+  );
+
+  const onDragOver = useCallback((e) => {
+    e.preventDefault();
+    console.log(e);
+    setDragOver(true);
+  }, []);
+
   if (!userData || !myData) {
     return null;
   }
@@ -108,7 +143,7 @@ const DirectMessage = () => {
   const chatSections = makeSection(chatData ? [...chatData].flat().reverse() : []);
 
   return (
-    <Container>
+    <Container onDrop={onDrop} onDragOver={onDragOver}>
       <Header>
         <img src={gravatar.url(userData.email, { s: '24px', d: 'retro' })} alt={userData.nickname} />
         <span>{userData.nickname}</span>
@@ -121,6 +156,7 @@ const DirectMessage = () => {
         isReachingEnd={isReachingEnd}
       />
       <ChatBox chat={chat} onChangeChat={onChangeChat} onSubmitForm={onSubmitForm} />
+      {dragOver && <DragOver>업로드!</DragOver>}
     </Container>
   );
 };
